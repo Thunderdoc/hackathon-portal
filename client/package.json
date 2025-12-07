@@ -20,10 +20,9 @@
         "react-parallax-tilt": "^1.7.315",
         "react-qr-code": "^2.0.18",
         "react-router-dom": "^7.10.1",
-        "recharts": "^3.5.1"
+        "recharts": "^3.5.1",
+        "vite": "^7.2.6",
+        "@vitejs/plugin-react": "^5.1.1"
     },
-    "devDependencies": {
-        "@vitejs/plugin-react": "^5.1.1",
-        "vite": "^7.2.6"
-    }
+    "devDependencies": {}
 }
