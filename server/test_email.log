@@ -1,0 +1,18 @@
+Attempting to send test email...
+FAILED to send email:
+Error: Invalid login: 535 5.7.8 Authentication failed
+    at SMTPConnection._formatError (C:\Users\ankit\Downloads\ai used\server\node_modules\nodemailer\lib\smtp-connection\index.js:809:19)
+    at SMTPConnection._actionAUTHComplete (C:\Users\ankit\Downloads\ai used\server\node_modules\nodemailer\lib\smtp-connection\index.js:1595:34)
+    at SMTPConnection.<anonymous> (C:\Users\ankit\Downloads\ai used\server\node_modules\nodemailer\lib\smtp-connection\index.js:556:26)
+    at SMTPConnection._processResponse (C:\Users\ankit\Downloads\ai used\server\node_modules\nodemailer\lib\smtp-connection\index.js:993:20)
+    at SMTPConnection._onData (C:\Users\ankit\Downloads\ai used\server\node_modules\nodemailer\lib\smtp-connection\index.js:774:14)
+    at SMTPConnection._onSocketData (C:\Users\ankit\Downloads\ai used\server\node_modules\nodemailer\lib\smtp-connection\index.js:195:44)
+    at TLSSocket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'EAUTH',
+  response: '535 5.7.8 Authentication failed',
+  responseCode: 535,
+  command: 'AUTH PLAIN'
+}

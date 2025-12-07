@@ -1,0 +1,14 @@
+Attempting to start server on port 5001
+Server running on http://localhost:5001
+Connected to the SQLite database.
+<anonymous_script>:0
+
+
+[Error: SQLITE_ERROR: duplicate column name: phone
+Emitted 'error' event on Statement instance at:
+] {
+  errno: 1,
+  code: 'SQLITE_ERROR'
+}
+
+Node.js v24.11.0
