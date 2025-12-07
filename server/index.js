@@ -59,7 +59,7 @@ const sendEmail = async (to, subject, html) => {
 };
 
 const app = express();
-const PORT = 5001;
+const PORT = process.env.PORT || 5001;
 
 console.log("Attempting to start server on port " + PORT);
 
