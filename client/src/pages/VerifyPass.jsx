@@ -1,2 +1,137 @@
-import React, { useEffect, useState } from 'react'; import { useParams } from 'react-router-dom'; import axios from 'axios'; import { CheckCircle, XCircle, ShieldCheck, ShieldAlert, Loader } from 'lucide-react';  const VerifyPass = () => {     const { id } = useParams();     // Extract numeric ID if the param is "ID-123"     const cleanId = id.replace(/\D/g, '');      const [member, setMember] = useState(null);     const [loading, setLoading] = useState(true);     const [error, setError] = useState(null);      useEffect(() => {         const verifyMember = async () => {             try {                 // Simulate "Processing" delay for effect                 await new Promise(r => setTimeout(r, 1500));                  const res = await axios.get(`${API_URL}/api/verify/member/${cleanId}`);                 setMember(res.data);             } catch (err) {                 setError("INVALID ID OR DATABASE ERROR");             } finally {                 setLoading(false);             }         };          if (cleanId) {             verifyMember();         } else {             setError("NO ID PROVIDED");             setLoading(false);         }     }, [cleanId]);      if (loading) {         return (             <div style={{ height: '100vh', background: '#000', color: '#0f0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontFamily: 'monospace' }}>                 <Loader size={64} className="spin-slow" />                 <h2 style={{ marginTop: '2rem', letterSpacing: '5px' }}>ESTABLISHING SECURE CONNECTION...</h2>                 <div style={{ width: '300px', height: '4px', background: '#333', marginTop: '1rem' }}>                     <div style={{ width: '50%', height: '100%', background: '#0f0', animation: 'progress 2s infinite' }}></div>                 </div>                 <style>{`                     @keyframes progress { 0% { width: 0%} 100% { width: 100%} }                     .spin-slow { animation: spin 3s linear infinite; }                     @keyframes spin { 100% { transform: rotate(360deg); } }                 `}</style>             </div>         );     }      if (error) {         return (             <div style={{ height: '100vh', background: '#000', color: '#e63946', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontFamily: "'Montserrat', sans-serif" }}>                 <ShieldAlert size={120} />                 <h1 style={{ fontSize: '4rem', fontWeight: '900', marginTop: '2rem', textTransform: 'uppercase' }}>Access Denied</h1>                 <p style={{ fontSize: '1.5rem', letterSpacing: '2px' }}>{error}</p>                 <div style={{ marginTop: '3rem', padding: '1rem 3rem', border: '2px solid #e63946', borderRadius: '10px' }}>                     SECURITY ALERT LOGGED                 </div>             </div>         );     }      return (         <div style={{ minHeight: '100vh', background: '#111', color: '#fff', fontFamily: "'Inter', sans-serif", display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '2rem' }}>             <div style={{                 width: '100%', maxWidth: '500px',                 background: 'rgba(255,255,255,0.05)',                 backdropFilter: 'blur(10px)',                 border: '1px solid rgba(255,255,255,0.1)',                 borderRadius: '30px',                 overflow: 'hidden',                 boxShadow: '0 0 50px rgba(0,255,157,0.2)'             }}>                 {/* Header Status */}                 <div style={{                     background: '#06d6a0',                     padding: '2rem',                     display: 'flex',                     flexDirection: 'column',                     alignItems: 'center',                     justifyContent: 'center',                     boxShadow: '0 5px 20px rgba(6, 214, 160, 0.3)'                 }}>                     <ShieldCheck size={64} color="#1d3557" strokeWidth={2} />                     <h2 style={{ margin: '1rem 0 0 0', color: '#1d3557', fontWeight: '900', fontSize: '2rem', letterSpacing: '1px' }}>ACCESS GRANTED</h2>                 </div>                  {/* Body */}                 <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>                     {/* Photo */}                     <div style={{                         width: '180px', height: '180px',                         borderRadius: '50%',                         border: '4px solid #06d6a0',                         overflow: 'hidden',                         marginBottom: '2rem',                         boxShadow: '0 0 30px rgba(6, 214, 160, 0.2)'                     }}>                         <img src={member.photoUrl} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />                     </div>                      <h1 style={{ margin: 0, fontSize: '2.5rem', fontWeight: 'bold', textAlign: 'center' }}>{member.fullName}</h1>                     <p style={{ color: '#06d6a0', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 'bold', marginTop: '0.5rem' }}>{member.role}</p>                      <div style={{ width: '100%', height: '1px', background: '#333', margin: '2rem 0' }}></div>                      <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>                         <span style={{ color: '#888' }}>Team</span>                         <span style={{ fontWeight: '600' }}>{member.teamName}</span>                     </div>                     <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>                         <span style={{ color: '#888' }}>Event</span>                         <span style={{ fontWeight: '600' }}>Hackathon 2025</span>                     </div>                     <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>                         <span style={{ color: '#888' }}>Status</span>                         <span style={{ color: '#06d6a0', fontWeight: 'bold' }}>Active</span>                     </div>                 </div>                  {/* Footer */}                 <div style={{ padding: '1.5rem', textAlign: 'center', borderTop: '1px solid #333', background: 'rgba(0,0,0,0.2)' }}>                     <p style={{ margin: 0, fontSize: '0.8rem', color: '#666' }}>SECURITY CHECKPOINT ALPHA</p>                     <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.7rem', color: '#444', fontFamily: 'monospace' }}>{new Date().toLocaleString()}</p>                 </div>             </div>         </div>     ); };  export default VerifyPass;
 import API_URL from '../config';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { CheckCircle, XCircle, ShieldCheck, ShieldAlert, Loader } from 'lucide-react';
+
+const VerifyPass = () => {
+    const { id } = useParams();
+    // Extract numeric ID if the param is "ID-123"
+    const cleanId = id.replace(/\D/g, '');
+
+    const [member, setMember] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const verifyMember = async () => {
+            try {
+                // Simulate "Processing" delay for effect
+                await new Promise(r => setTimeout(r, 1500));
+
+                const res = await axios.get(`${API_URL}/api/verify/member/${cleanId}`);
+                setMember(res.data);
+            } catch (err) {
+                setError("INVALID ID OR DATABASE ERROR");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (cleanId) {
+            verifyMember();
+        } else {
+            setError("NO ID PROVIDED");
+            setLoading(false);
+        }
+    }, [cleanId]);
+
+    if (loading) {
+        return (
+            <div style={{ height: '100vh', background: '#000', color: '#0f0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontFamily: 'monospace' }}>
+                <Loader size={64} className="spin-slow" />
+                <h2 style={{ marginTop: '2rem', letterSpacing: '5px' }}>ESTABLISHING SECURE CONNECTION...</h2>
+                <div style={{ width: '300px', height: '4px', background: '#333', marginTop: '1rem' }}>
+                    <div style={{ width: '50%', height: '100%', background: '#0f0', animation: 'progress 2s infinite' }}></div>
+                </div>
+                <style>{`
+                    @keyframes progress { 0% { width: 0%} 100% { width: 100%} }
+                    .spin-slow { animation: spin 3s linear infinite; }
+                    @keyframes spin { 100% { transform: rotate(360deg); } }
+                `}</style>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div style={{ height: '100vh', background: '#000', color: '#e63946', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontFamily: "'Montserrat', sans-serif" }}>
+                <ShieldAlert size={120} />
+                <h1 style={{ fontSize: '4rem', fontWeight: '900', marginTop: '2rem', textTransform: 'uppercase' }}>Access Denied</h1>
+                <p style={{ fontSize: '1.5rem', letterSpacing: '2px' }}>{error}</p>
+                <div style={{ marginTop: '3rem', padding: '1rem 3rem', border: '2px solid #e63946', borderRadius: '10px' }}>
+                    SECURITY ALERT LOGGED
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div style={{ minHeight: '100vh', background: '#111', color: '#fff', fontFamily: "'Inter', sans-serif", display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '2rem' }}>
+            <div style={{
+                width: '100%', maxWidth: '500px',
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '30px',
+                overflow: 'hidden',
+                boxShadow: '0 0 50px rgba(0,255,157,0.2)'
+            }}>
+                {/* Header Status */}
+                <div style={{
+                    background: '#06d6a0',
+                    padding: '2rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 5px 20px rgba(6, 214, 160, 0.3)'
+                }}>
+                    <ShieldCheck size={64} color="#1d3557" strokeWidth={2} />
+                    <h2 style={{ margin: '1rem 0 0 0', color: '#1d3557', fontWeight: '900', fontSize: '2rem', letterSpacing: '1px' }}>ACCESS GRANTED</h2>
+                </div>
+
+                {/* Body */}
+                <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    {/* Photo */}
+                    <div style={{
+                        width: '180px', height: '180px',
+                        borderRadius: '50%',
+                        border: '4px solid #06d6a0',
+                        overflow: 'hidden',
+                        marginBottom: '2rem',
+                        boxShadow: '0 0 30px rgba(6, 214, 160, 0.2)'
+                    }}>
+                        <img src={member.photoUrl} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+
+                    <h1 style={{ margin: 0, fontSize: '2.5rem', fontWeight: 'bold', textAlign: 'center' }}>{member.fullName}</h1>
+                    <p style={{ color: '#06d6a0', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 'bold', marginTop: '0.5rem' }}>{member.role}</p>
+
+                    <div style={{ width: '100%', height: '1px', background: '#333', margin: '2rem 0' }}></div>
+
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                        <span style={{ color: '#888' }}>Team</span>
+                        <span style={{ fontWeight: '600' }}>{member.teamName}</span>
+                    </div>
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                        <span style={{ color: '#888' }}>Event</span>
+                        <span style={{ fontWeight: '600' }}>Hackathon 2025</span>
+                    </div>
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+                        <span style={{ color: '#888' }}>Status</span>
+                        <span style={{ color: '#06d6a0', fontWeight: 'bold' }}>Active</span>
+                    </div>
+                </div>
+
+                {/* Footer */}
+                <div style={{ padding: '1.5rem', textAlign: 'center', borderTop: '1px solid #333', background: 'rgba(0,0,0,0.2)' }}>
+                    <p style={{ margin: 0, fontSize: '0.8rem', color: '#666' }}>SECURITY CHECKPOINT ALPHA</p>
+                    <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.7rem', color: '#444', fontFamily: 'monospace' }}>{new Date().toLocaleString()}</p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default VerifyPass;
