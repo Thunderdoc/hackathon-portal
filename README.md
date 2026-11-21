@@ -42,7 +42,7 @@ npm run dev --prefix client     # vite (development server)
 node server/index.js            # same as npm start / server start script
 ```
 
-Environment variables used by the server (see `server/index.js`): `PORT` (default `5001`), `EMAIL_USER`, `EMAIL_PASS` (Brevo SMTP credentials for outgoing email).
+Environment variables used by the server (see `server/index.js`): `PORT` (default `5001`), `EMAIL_USER`, `EMAIL_PASS` (Brevo SMTP credentials for outgoing email), `ADMIN_PASSWORD` (password for the seeded admin account — if unset, no admin account is created).
 
 ## Project structure
 

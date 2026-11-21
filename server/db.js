@@ -175,12 +175,20 @@ function initDb() {
             createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
         )`);
 
-        // Seed Admin
+        // Seed Admin — password comes from the ADMIN_PASSWORD env var only.
+        // If unset or empty, NO admin is created: set ADMIN_PASSWORD in
+        // server/.env before first start. There is intentionally no
+        // default password.
         db.get("SELECT count(*) as count FROM admins", (err, row) => {
             if (err) console.error(err.message);
             else if (row.count === 0) {
-                db.run(`INSERT INTO admins(username, password) VALUES('admin', 'admin123')`);
-                console.log("Default admin created.");
+                const adminPassword = process.env.ADMIN_PASSWORD;
+                if (!adminPassword) {
+                    console.error("WARNING: ADMIN_PASSWORD is not set — no admin account was created. Set ADMIN_PASSWORD in server/.env and restart to create the admin account.");
+                } else {
+                    db.run(`INSERT INTO admins(username, password) VALUES(?, ?)`, ['admin', adminPassword]);
+                    console.log("Admin account created from ADMIN_PASSWORD.");
+                }
             }
         });
 

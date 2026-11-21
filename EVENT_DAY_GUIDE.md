@@ -9,7 +9,7 @@
 | Portal | URL | Description |
 | :--- | :--- | :--- |
 | **Landing Page** | `http://localhost:5001/` | Registration & Main Hub |
-| **Admin** | `http://localhost:5001/admin` | `user: admin`, `pass: admin123` |
+| **Admin** | `http://localhost:5001/admin` | Set `ADMIN_PASSWORD` in `server/.env` before first start — that is the admin password. |
 | **Judge** | `http://localhost:5001/judge/login` | For evaluators to score teams |
 | **Team Login** | `http://localhost:5001/team/login` | For participants |
 

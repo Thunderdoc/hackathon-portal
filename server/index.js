@@ -28,7 +28,6 @@ try {
 }
 
 // --- EMAIL CONFIGURATION ---
-// REPLACE WITH YOUR ACTUAL CREDENTIALS
 // --- EMAIL CONFIGURATION (BREVO SMTP) ---
 // --- EMAIL CONFIGURATION (BREVO SMTP) ---
 const transporter = nodemailer.createTransport({
